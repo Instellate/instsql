@@ -9,12 +9,14 @@ namespace instsql::result {
     Result::Result(PGresult *pgresult) { this->result = pgresult; }
 
     Result::~Result() { PQclear(result); }
+
     Result::Iterator Result::begin() const {
         if (PQresultStatus(result) != PGRES_TUPLES_OK) {
             throw std::runtime_error("Not a tuple.");
         }
         return Result::Iterator({result, 0});
     }
+
     Result::Iterator Result::end() const {
         if (PQresultStatus(result) != PGRES_TUPLES_OK) {
             throw std::runtime_error("Not a tuple.");
